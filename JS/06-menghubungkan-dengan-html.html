@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+        table tr th, table tr td {
+            padding: 5px;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <table id="contoh">
+        <thead>
+            <tr>
+                <th>Suara</th>
+                <th>Warna</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        document.querySelector('title').innerText = "Contoh merubah title dengan js"
+        class Hewan {
+            constructor(suara, warna) {
+                this._suara = suara
+                this._warna = warna
+            }
+            get suara() {
+                return this._suara
+            }
+            set suara(v) {
+                this._suara = v
+            }
+        }
+        const listHewan = [
+            new Hewan("meong", "hitam"),
+            new Hewan("guk guk", "oren"),
+        ]
+        let dom = ''
+        listHewan.forEach(function(hewan) {
+            dom += `
+                <tr>
+                    <td>${hewan.suara}</td>
+                    <td>${hewan._warna}</td>
+                </tr>
+            `
+        })
+        document.querySelector("#contoh tbody").innerHTML = dom
+    </script>
+</body>
+</html>
