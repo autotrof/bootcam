@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ContohController;
+use App\Http\Controllers\ContohControllerResource;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +18,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/contoh', [ContohController::class, 'index']);
+Route::post('/contoh', [ContohController::class, 'store']);
+Route::put('/contoh', [ContohController::class, 'update']);
+Route::delete('/contoh', [ContohController::class, 'delete']);
+
+Route::resource('contoh-resource', ContohControllerResource::class);
