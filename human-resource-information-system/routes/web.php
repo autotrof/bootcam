@@ -15,9 +15,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [ContohController::class, 'index']);
+Route::get('/about', [ContohController::class, 'about']);
+Route::get('/contact', [ContohController::class, 'contact']);
 
 Route::get('/contoh', [ContohController::class, 'index']);
 Route::post('/contoh', [ContohController::class, 'store']);

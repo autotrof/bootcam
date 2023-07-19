@@ -4,20 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class ContohController extends Controller
 {
-function index() {
-    $students = Student::limit(100)->get();
-
-    if (request('page') == 1) {
-        return view('pages.page1', compact('students'));
-    } else {
-        return view('pages.page2', compact('students'));
+    function index() {
+        return inertia('Home');
     }
-}
 
-function store() {}
-function update() {}
-function delete() {}
+    function about() {
+        return inertia('Contact');
+    }
+
+    function contact() {
+        return inertia('About');
+    }
+
+    function store() {}
+    function update() {}
+    function delete() {}
 }
