@@ -8,13 +8,13 @@ use Inertia\Inertia;
 
 class ContohController extends Controller
 {
-function index() {
-    $data = [
-        'nama' => 'Budi',
-        'kelas' => 10
-    ];
-    return inertia('Home', $data);
-}
+    function index() {
+        $data = [
+            'nama' => 'Budi',
+            'kelas' => 10
+        ];
+        return inertia('Home', $data);
+    }
 
     function about() {
         return inertia('Contact');
