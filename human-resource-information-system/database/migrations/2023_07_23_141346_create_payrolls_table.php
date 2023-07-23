@@ -15,11 +15,12 @@ return new class extends Migration
             $table->id();
             $table->foreignId('employee_id')->constrained();
             $table->unsignedTinyInteger('month');
+            $table->year('year');
             $table->decimal('salary_paid');
             $table->decimal('salary_cut')->default(0);
             $table->timestamps();
 
-            $table->unique(['employee_id', 'month']);
+            $table->unique(['employee_id', 'month', 'year']);
         });
     }
 
