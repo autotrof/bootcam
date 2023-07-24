@@ -208,7 +208,7 @@ import { Link } from '@inertiajs/vue3'
         </aside>
 
         <div class="content-wrapper">
-
+            <slot></slot>
         </div>
 
         <footer class="main-footer">

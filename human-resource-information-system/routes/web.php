@@ -1,7 +1,6 @@
 <?php
 
-use App\Http\Controllers\ContohController;
-use App\Http\Controllers\ContohControllerResource;
+use App\Http\Controllers\JobPositionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +15,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 
+Route::get('/', [JobPositionController::class, 'index']);
