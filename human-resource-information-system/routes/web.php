@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\JobPositionController;
+use App\Http\Controllers\EmployeeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +16,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/', [JobPositionController::class, 'index']);
+Route::redirect('/', '/karyawan');
+Route::resource('employee', EmployeeController::class)->except('show');
