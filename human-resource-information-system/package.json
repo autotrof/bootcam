@@ -11,6 +11,7 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
+        "@autotrof/av-datatable": "^1.1.3",
         "@inertiajs/vue3": "^1.0.9",
         "@vitejs/plugin-vue": "^4.2.3",
         "vue": "^3.3.4"
