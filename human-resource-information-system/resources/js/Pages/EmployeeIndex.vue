@@ -2,7 +2,7 @@
 import '@autotrof/av-datatable/dist/style.css'
 import AvDatatable from '@autotrof/av-datatable'
 import Layout from '../Layout.vue'
-import { Head } from '@inertiajs/vue3'
+import { Head, Link } from '@inertiajs/vue3'
 
 const table_options = {
 	tableClassName: 'table table-hover table-striped',
@@ -387,7 +387,7 @@ const data = [
 <template>
     <Layout>
         <Head>
-            <title>Job Position</title>
+            <title>Manajemen Karyawan</title>
         </Head>
         <div class="content-header">
             <div class="container-fluid">
@@ -395,11 +395,8 @@ const data = [
                     <div class="col-sm-6">
                         <h1 class="m-0">Manajemen Karyawan</h1>
                     </div>
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Manajemen Karyawan</li>
-                        </ol>
+                    <div class="col-sm-6 text-right">
+                        <Link href="/employee/create" class="btn btn-primary">Registrasi Karyawan</Link>
                     </div>
                 </div>
             </div>
