@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ini contoh vuejs</title>
+</head>
+<body>
+<div id="app">
+    Halo {{ nama }}!
+    <div>Counting Sekarang = {{ count }}</div>
+    <button @click="tambahCounting">Tambah Counting</button>
+</div>
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script>
+    const { createApp, ref } = Vue
+    createApp({
+        setup() {
+            const nama = ref('Budi')
+            const count = ref(1)
+            function tambahCounting() {
+                count.value++
+            }
+            return {
+                nama, count, tambahCounting
+            }
+        }
+    }).mount('#app')
+</script>
+</body>
+</html>
