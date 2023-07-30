@@ -25,9 +25,27 @@
         <tbody></tbody>
     </table>
 
+
+    <div id="tes1">X</div>
+    <div id="tes2">Y</div>
+    <div id="tes3">Z</div>
+    <br>
+    <br>
+    <br>
+    <table>
+        <thead class="theadkedua">
+            <tr>
+                <th>TH1</th>
+                <th>TH2
+
+                </th>
+            </tr>
+        </thead>
+    </table>
+
     <script>
         document.querySelector('title').innerText = "Contoh merubah title dengan js"
-        class Hewan {
+        /* class Hewan {
             constructor(suara, warna) {
                 this._suara = suara
                 this._warna = warna
@@ -52,7 +70,27 @@
                 </tr>
             `
         })
-        document.querySelector("#contoh tbody").innerHTML = dom
+        document.querySelector("#contoh tbody").innerHTML = dom */
+
+        let listHewan = [
+            {
+                warna: "Kuning",
+                suara: "Mbek"
+            },
+            {
+                warna: "Hitam",
+                suara: "meong"
+            }
+        ]
+        for (let hewan of listHewan) {
+            document.querySelector('table#contoh tbody').innerHTML += `
+                <tr>
+                    <td>${hewan.warna}</td>
+                    <td>${hewan.suara}</td>
+                </tr>
+            `
+        }
+
     </script>
 </body>
 </html>

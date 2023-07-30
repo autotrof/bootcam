@@ -27,4 +27,20 @@ class Kendaraan {
 
 $kendaraan = new Kendaraan(3, "Budi", 10000000);
 $kendaraan->jalan();
-// Kendaraan roda 3 berjalan dengan cepat
+Kendaraan roda 3 berjalan dengan cepat
+
+
+// class Rumah {
+//     public $jenisLantai;
+//     function __construct($jenisLantai) {
+//         $this->jenisLantai = $jenisLantai;
+//     }
+
+//     function bersuara() {
+//         echo "Lantai saya $this->jenisLantai";
+//     }
+// }
+
+// $rumahBudi = new Rumah("Ubin");
+// $rumahBudi->bersuara();
+

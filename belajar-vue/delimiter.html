@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Home</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    aaaaa
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script type="module">
+      const { createApp } = Vue
+
+      const app = createApp({
+        data() {
+          return {
+            message: 'Hello abcdefg!',
+          }
+        },
+      })
+
+      // Delimiters changed to ES6 template string style
+      app.config.compilerOptions.delimiters = ['${', '}']
+
+      app.mount('#app')
+    </script>
+  </head>
+
+  <body>
+    <main>
+
+        ${message}
+      <div id="app">${ message }</div>
+    </main>
+  </body>
+</html>

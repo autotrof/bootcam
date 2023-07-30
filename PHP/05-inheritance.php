@@ -42,6 +42,9 @@ class Mobil extends Kendaraan {
     }
 }
 
+$mobil = new Mobil("Budi", 100000, "ABC");
+$mobil->jalan();
+
 $mobil = new Mobil("Budi", 100000000, "BMX");
 $mobil->printInfo();
 // Kendaraan ini berjenis mobil. memiliki roda 4. Memiliki merk BMX. Pemiliknya bernama Budi
