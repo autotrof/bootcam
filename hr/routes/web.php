@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\JobPositionController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 // Route::put('/edit/{jobPosition}', [JobPositionController::class, 'update']);
 // Route::delete('/delete/{jobPosition}', [JobPositionController::class, 'destroy']);
 
-Route::redirect('/', '/job-position');
-
+Route::redirect('/', '/employee');
 
 Route::resource('/job-position', JobPositionController::class)->except('show');
+Route::resource('/employee', EmployeeController::class)->except('show');

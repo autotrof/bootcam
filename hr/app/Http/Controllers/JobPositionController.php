@@ -13,7 +13,8 @@ class JobPositionController extends Controller
     public function index()
     {
         $jobPositions = JobPosition::all();
-        return view('pages.job_position.index', compact('jobPositions'));
+        // return view('pages.job_position.index', compact('jobPositions'));
+        return inertia('JobPosition/Index', compact('jobPositions'));
     }
 
     /**
@@ -21,7 +22,8 @@ class JobPositionController extends Controller
      */
     public function create()
     {
-        return view('pages.job_position.form');
+        // return view('pages.job_position.form');
+        return inertia('JobPosition/Form');
     }
 
     /**
@@ -34,10 +36,11 @@ class JobPositionController extends Controller
             'level' => 'required|numeric',
             'salary' => 'required|numeric|min:1',
         ]);
-        JobPosition::create($request->only([
+        $jobPosition = JobPosition::create($request->only([
             'title', 'level', 'salary'
         ]));
-        return redirect()->back();
+        // return redirect()->back();
+        return response()->json($jobPosition);
     }
 
     /**
@@ -53,7 +56,8 @@ class JobPositionController extends Controller
      */
     public function edit(JobPosition $jobPosition)
     {
-        return view('pages.job_position.form', compact('jobPosition'));
+        // return view('pages.job_position.form', compact('jobPosition'));
+        return inertia('JobPosition/Form', compact('jobPosition'));
     }
 
     /**
@@ -64,7 +68,7 @@ class JobPositionController extends Controller
         $request->validate([
             'title' => 'required',
             'level' => 'required|numeric',
-            'salary' => 'required|numeric|min:1',
+            'salary' => 'required|numeric|min:1'
         ]);
         $jobPosition->update($request->only([
             'title', 'level', 'salary'
@@ -78,6 +82,7 @@ class JobPositionController extends Controller
     public function destroy(JobPosition $jobPosition)
     {
         $jobPosition->delete();
-        return redirect()->back();
+        // return redirect()->back();
+        return response()->json(true);
     }
 }
