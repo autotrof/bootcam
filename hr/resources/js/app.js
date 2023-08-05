@@ -13,6 +13,7 @@ createInertiaApp({
     const app = createApp({ render: () => h(App, props) })
     app.config.globalProperties.$app_name = window.$app_name
     app.config.globalProperties.route = window.route
+    app.config.globalProperties.$asset_path = window.$asset_path
     app.use(plugin).mount(el)
   },
 })

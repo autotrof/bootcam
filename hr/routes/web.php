@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\JobPositionController;
 use Illuminate\Support\Facades\Route;
@@ -22,7 +24,15 @@ use Illuminate\Support\Facades\Route;
 // Route::put('/edit/{jobPosition}', [JobPositionController::class, 'update']);
 // Route::delete('/delete/{jobPosition}', [JobPositionController::class, 'destroy']);
 
-Route::redirect('/', '/employee');
 
-Route::resource('/job-position', JobPositionController::class)->except('show');
-Route::resource('/employee', EmployeeController::class)->except('show');
+Route::middleware('auth')->group(function() {
+    Route::redirect('/', '/employee');
+    Route::resource('/job-position', JobPositionController::class)->except('show');
+    Route::resource('/employee', EmployeeController::class)->except('show');
+    Route::resource('/attendance', AttendanceController::class)->except('show');
+});
+
+Route::middleware('guest')->group(function() {
+    Route::get('/login', [AuthController::class, 'loginPage'])->name('login');
+    Route::post('/login', [AuthController::class, 'loginCheck'])->name('login.check');
+});

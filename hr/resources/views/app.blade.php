@@ -45,6 +45,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script>
 window.$app_name = @json(config('app.name'));
 window.route = route
+window.$asset_path = @json(asset(''));
 </script>
 @vite('resources/js/app.js')
 </body>

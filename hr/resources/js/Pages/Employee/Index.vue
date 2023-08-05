@@ -6,10 +6,10 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0">Manajemen Jabatan</h1>
+                            <h1 class="m-0">Manajemen Karyawan</h1>
                         </div>
                         <div class="col-sm-6 text-right">
-                            <Link :href="route('job-position.create')" class="btn btn-primary">Jabatan Baru</Link>
+                            <Link :href="route('employee.create')" class="btn btn-primary">Karyawan Baru</Link>
                         </div>
                     </div><!-- /.row -->
                 </div><!-- /.container-fluid -->
@@ -26,13 +26,30 @@
                                     <table class="table table-bordered" id="table">
                                         <thead>
                                             <tr>
-                                                <th>Title</th>
-                                                <th>Level</th>
-                                                <th>Salary</th>
+                                                <th>Foto</th>
+                                                <th>NIK</th>
+                                                <th>Nama</th>
+                                                <th>Telp</th>
+                                                <th>Tgl Masuk</th>
                                                 <th width="10"></th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            <tr v-for="employee in props.employees" :key="employee.id">
+                                                <td>
+                                                    <img class="img" style="width:50px" :src="$asset_path + 'storage/' + employee.photo" />
+                                                </td>
+                                                <td>{{ employee.nik }}</td>
+                                                <td>{{ employee.name }}</td>
+                                                <td>{{ employee.phone }}</td>
+                                                <td>{{ employee.entry_date }}</td>
+                                                <td>
+                                                    <Link :href="route('employee.edit', {employee: employee.id})" class="btn btn-sm btn-primary">
+                                                        Edit
+                                                    </Link>
+                                                    <button class="btn btn-sm btn-danger" type="button" @click="deleteData(employee.id)">Hapus</button>
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -54,13 +71,22 @@ import axios from 'axios';
 import { nextTick, onMounted } from 'vue';
 
 const props = defineProps({
-
+    employees: {
+        type: Array,
+        required: true
+    }
 })
 
-function deleteData(id) {
-    const c = confirm("Are you sure you want to delete?")
-    if (c == true) {
-        axios.post(route('job-position.destroy', {job_position: id}), {_method: 'DELETE'})
+async function deleteData(id) {
+    // const c = confirm("Are you sure you want to delete?")
+    const c = await Sweetalert2.fire({
+        title: 'Are you sure you want to delete?',
+        showCancelButton: true,
+        confirmButtonText: 'Ya, Hapus',
+        cancelButtonText: 'Batal',
+    })
+    if (c.value) {
+        axios.post(route('employee.destroy', {employee: id}), {_method: 'DELETE'})
         router.reload()
     }
 }

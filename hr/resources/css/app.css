@@ -2,3 +2,5 @@
 @import "../assets/plugins/fontawesome-free/css/all.min.css";
 @import "../assets/dist/css/adminlte.min.css";
 @import "../assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css";
+@import "../assets/plugins/sweetalert2/sweetalert2.min.css";
+@import "../assets/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css";

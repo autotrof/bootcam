@@ -28,6 +28,14 @@
                             </p>
                         </Link>
                     </li>
+                    <li class="nav-item">
+                        <Link :href="route('attendance.index')" class="nav-link" :class="{'active': router.page.url.startsWith('/attendance')}">
+                            <i class="nav-icon fas fa-calendar"></i>
+                            <p>
+                                Daftar Kehadiran
+                            </p>
+                        </Link>
+                    </li>
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->

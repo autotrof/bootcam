@@ -8,6 +8,7 @@ import '../assets/plugins/bootstrap/js/bootstrap.bundle.min';
 import '../assets/dist/js/adminlte.min';
 import '../assets/plugins/datatables/jquery.dataTables.min';
 import '../assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min';
+import '../assets/plugins/sweetalert2/sweetalert2.all.min';
 import axios from 'axios';
 window.axios = axios;
 

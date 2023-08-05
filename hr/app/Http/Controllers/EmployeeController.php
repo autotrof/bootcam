@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employee;
+use App\Models\JobPosition;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 
 class EmployeeController extends Controller
 {
@@ -12,7 +15,8 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        return inertia('Employee/Index');
+        $employees = Employee::all();
+        return inertia('Employee/Index', compact('employees'));
     }
 
     /**
@@ -20,7 +24,8 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        //
+        $jobPositions = JobPosition::all();
+        return inertia('Employee/Form', compact('jobPositions'));
     }
 
     /**
@@ -28,7 +33,23 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nik' => 'required|unique:\App\Models\Employee,nik',
+            'name' => 'required',
+            'birth_date' => 'required|date',
+            'entry_date' => 'required|date',
+            'phone' => 'required',
+            'job_position_id' => 'required|exists:\App\Models\JobPosition,id',
+            'photo_file' => 'required|image|max:2048'
+        ]);
+
+        DB::beginTransaction();
+        $employee = Employee::create($request->except('photo_file'));
+        $employee->photo = $request->file('photo_file')->store('employee/' . $employee->id, 'public');
+        $employee->save();
+        DB::commit();
+
+        return response()->json($employee);
     }
 
     /**
@@ -44,7 +65,8 @@ class EmployeeController extends Controller
      */
     public function edit(Employee $employee)
     {
-        //
+        $jobPositions = JobPosition::all();
+        return inertia('Employee/Form', compact('employee', 'jobPositions'));
     }
 
     /**
@@ -52,7 +74,25 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, Employee $employee)
     {
-        //
+        $request->validate([
+            'nik' => 'required|unique:\App\Models\Employee,nik,' . $employee->id . ',id',
+            'name' => 'required',
+            'birth_date' => 'required|date',
+            'entry_date' => 'required|date',
+            'phone' => 'required',
+            'job_position_id' => 'required|exists:\App\Models\JobPosition,id',
+            'photo_file' => 'nullable|image|max:2048'
+        ]);
+
+        DB::beginTransaction();
+        $employee->update($request->except('photo_file'));
+        if ($request->file('photo_file')) {
+            $employee->photo = $request->file('photo_file')->store('employee/' . $employee->id, 'public');
+            $employee->save();
+        }
+        DB::commit();
+
+        return response()->json($employee);
     }
 
     /**
@@ -60,6 +100,8 @@ class EmployeeController extends Controller
      */
     public function destroy(Employee $employee)
     {
-        //
+        File::delete(storage_path('app/public/' . $employee->photo));
+        $employee->delete();
+        return response()->json(true);
     }
 }
