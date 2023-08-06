@@ -36,3 +36,7 @@ Route::middleware('guest')->group(function() {
     Route::get('/login', [AuthController::class, 'loginPage'])->name('login');
     Route::post('/login', [AuthController::class, 'loginCheck'])->name('login.check');
 });
+
+Route::post('x', function() {
+    phpinfo();
+});
