@@ -41,7 +41,3 @@ Route::middleware('guest')->group(function() {
 Route::get('link', function() {
     Artisan::call('storage:link');
 });
-
-Route::post('x', function() {
-    phpinfo();
-});
