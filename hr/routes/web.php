@@ -4,6 +4,7 @@ use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\JobPositionController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,4 +36,8 @@ Route::middleware('auth')->group(function() {
 Route::middleware('guest')->group(function() {
     Route::get('/login', [AuthController::class, 'loginPage'])->name('login');
     Route::post('/login', [AuthController::class, 'loginCheck'])->name('login.check');
+});
+
+Route::get('link', function() {
+    Artisan::call('storage:link');
 });
