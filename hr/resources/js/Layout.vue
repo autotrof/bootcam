@@ -36,6 +36,14 @@
                             </p>
                         </Link>
                     </li>
+                    <li class="nav-item">
+                        <a :href="route('logout')" class="nav-link text-danger">
+                            <i class="nav-icon fas fa-lock"></i>
+                            <p>
+                                Keluar
+                            </p>
+                        </a>
+                    </li>
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->

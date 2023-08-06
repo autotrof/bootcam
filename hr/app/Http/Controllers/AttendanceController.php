@@ -34,8 +34,8 @@ class AttendanceController extends Controller
         request()->validate([
             'employee_id' => 'required|exists:\App\Models\Employee,id',
             'date' => 'required|date',
-            'in' => 'nullable|date_format:yyyy-mm-dd HH:ii:ss',
-            'out' => 'nullable|date_format:yyyy-mm-dd HH:ii:ss',
+            'in' => 'nullable|date',
+            'out' => 'nullable|date',
             'status' => 'required|in:0,1,2,3'
         ]);
 
@@ -91,7 +91,7 @@ class AttendanceController extends Controller
 
     public function data() {
         $data = Attendance::join('employees', 'employees.id', '=', 'attendances.employee_id')
-            ->select('attendances.*', 'employees.nik', 'employees.name');
+            ->select('attendances.*', 'employees.nik', 'employees.name', 'employees.photo');
 
         return DataTables::eloquent($data)
             ->filterColumn('name', function($query, $keyword) {

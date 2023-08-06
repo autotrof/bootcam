@@ -28,9 +28,9 @@
                                     <div class="card-body">
                                         <div class="form-group">
                                             <label>Karyawan</label>
-                                            <select name="employee_id" id="select-karyawan" required class="form-control">
+                                            <select id="select-karyawan" required class="form-control" v-model="formData.employee_id">
                                                 <option value="">Pilih Karyawan</option>
-                                                <option v-for="employee in props.employees" :key="employee.id" :value="employee.id">{{ employee.name }}</option>
+                                                <option v-for="employee in props.employees" :key="employee.id" :value="employee.id">{{ employee.name }} {{ employee.nik }}</option>
                                             </select>
                                         </div>
                                         <div class="form-group">
@@ -128,13 +128,14 @@ async function submitForm() {
 
 onMounted(() => {
     // artinya ini adalah form edit
-    if (props.attendance) {
-        formData.value = {...props.attendance}
-    }
-
     $("#select-karyawan").select2()
     $("#select-karyawan").on('change.select2', function(e) {
-
+        formData.value.employee_id = $("#select-karyawan").val()
     })
+
+    if (props.attendance) {
+        formData.value = {...props.attendance}
+        $("#select-karyawan").val(props.attendance.employee_id).trigger('change')
+    }
 })
 </script>

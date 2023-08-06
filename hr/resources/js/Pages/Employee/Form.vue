@@ -110,6 +110,12 @@
                                                             <VueDatePicker v-model="formData.entry_date" :required="true" locale="id-ID" model-type="yyyy-MM-dd" position="left" format="yyyy-MM-dd" :auto-apply="true" placeholder="YYYY-MM-DD"></VueDatePicker>
                                                         </div>
                                                     </div>
+                                                    <div class="col-sm-6 col-md-4 col-lg-3">
+                                                        <div class="form-group">
+                                                            <label>Password</label>
+                                                            <input type="password" class="form-control" :required="!props.employee" v-model="formData.password"/>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -158,7 +164,8 @@ const formData = ref({
     entry_date: null,
     phone: null,
     job_position_id: null,
-    photo: null
+    photo: null,
+    password: null,
 })
 
 function pilihGambar() {
@@ -197,6 +204,11 @@ async function submitForm() {
         if (fileFoto.value) {
             data.append('photo_file', fileFoto.value)
         }
+
+        if (formData.value.password) {
+            data.append('password', formData.value.password)
+        }
+
         // ketika edit
         if (props.employee) {
             data.append('_method', 'PUT')
@@ -211,9 +223,9 @@ async function submitForm() {
             url = route('employee.store')
             const response = await axios.post(url, data, {headers: {'Content-Type': 'multipart/form-data'}})
             // 1 redirect ke index
-            // router.replace(route('job-position.index'))
+            router.replace(route('job-position.index'))
             // 2 redirect ke halaman edit/show
-            router.replace(route('employee.edit', {employee: response.data.id}))
+            // router.replace(route('employee.edit', {employee: response.data.id}))
         }
     } catch (e) {
         alert(e.response?.data?.message || e.message || e || 'ada kesalahan')

@@ -4,3 +4,9 @@
 @import "../assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css";
 @import "../assets/plugins/sweetalert2/sweetalert2.min.css";
 @import "../assets/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css";
+@import "../assets/plugins/select2/css/select2.min.css";
+@import "../assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css";
+
+.select2-container--default .select2-selection--single {
+    height: calc(2.25rem + 2px);
+}

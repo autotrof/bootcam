@@ -54,8 +54,8 @@ const formData = ref({
 
 async function loginCheck() {
     try {
-        let response = await axios.post(route('login.check'), formData.value)
-        console.log(response)
+        await axios.post($root_login, formData.value)
+        window.location.reload()
     } catch (e) {
         alert(e)
     }

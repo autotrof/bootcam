@@ -9,6 +9,7 @@
                             <h1 class="m-0">Daftar Kehadiran</h1>
                         </div>
                         <div class="col-sm-6 text-right">
+                            <a target="_blank" :href="route('slip-gaji.pdf')">Generate Pdf Slip Gaji</a>
                             <Link :href="route('attendance.create')" class="btn btn-primary">Input Kehadiran</Link>
                         </div>
                     </div><!-- /.row -->
@@ -81,6 +82,14 @@ onMounted(() => {
             columns: [
                 {
                     data: 'name',
+                    render: function(data, type, row, meta) {
+                        return `
+                            <img src="${$asset_path}storage/${row.photo}" class="img img-thumbnail" style="width: 60px"/>
+                            <div>
+                                ${row.name} - ${row.nik}
+                            </div>
+                        `
+                    }
                 },
                 {
                     data: 'date',
@@ -126,7 +135,6 @@ onMounted(() => {
 
                 $(".btn-hapus").on( 'click', function (e) {
                     e.preventDefault();
-                    console.log(e)
                     deleteData(e.target.dataset.id)
                 });
             }

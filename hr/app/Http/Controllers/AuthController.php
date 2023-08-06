@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class AuthController extends Controller
 {
     function loginPage() {
+        Inertia::setRootView('guest');
         return inertia('Login');
     }
 
@@ -23,5 +25,11 @@ class AuthController extends Controller
 
         return response()->json("Email atau password tidak sesuai", 401);
 
+    }
+
+
+    function logout() {
+        Auth::logout();
+        redirect()->route('login');
     }
 }
