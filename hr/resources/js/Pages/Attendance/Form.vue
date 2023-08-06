@@ -1,3 +1,7 @@
+<style>
+@import '@vuepic/vue-datepicker/dist/main.css';
+</style>
+
 <template>
     <Layout>
         <div class="content-wrapper">
@@ -6,39 +10,52 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0">Form Jabatan</h1>
+                            <h1 class="m-0">Form Kehadiran</h1>
                         </div>
                         <div class="col-sm-6 text-right">
 
                         </div>
-                    </div><!-- /.row -->
-                </div><!-- /.container-fluid -->
+                    </div>
+                </div>
             </div>
-            <!-- /.content-header -->
 
-            <!-- Main content -->
             <div class="content">
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="card">
-                                <!-- form start -->
                                 <form method="post" @submit.prevent="submitForm">
                                     <div class="card-body">
                                         <div class="form-group">
-                                            <label>Title</label>
-                                            <input type="text" name="title" class="form-control" placeholder="Nama Jabatan" v-model="formData.title">
+                                            <label>Karyawan</label>
+                                            <select name="employee_id" id="select-karyawan" required class="form-control">
+                                                <option value="">Pilih Karyawan</option>
+                                                <option v-for="employee in props.employees" :key="employee.id" :value="employee.id">{{ employee.name }}</option>
+                                            </select>
                                         </div>
                                         <div class="form-group">
-                                            <label>Level</label>
-                                            <input type="number" name="level" min="1" max="99" class="form-control" placeholder="Level Jabatan" v-model="formData.level">
+                                            <label>Tanggal</label>
+                                            <VueDatePicker v-model="formData.date" :required="true" locale="id-ID" model-type="yyyy-MM-dd" position="left" format="yyyy-MM-dd" :auto-apply="true" placeholder="YYYY-MM-DD"></VueDatePicker>
                                         </div>
                                         <div class="form-group">
-                                            <label>Salary</label>
-                                            <input id="input-salary" type="text" name="salary" class="form-control" placeholder="Gaji Pokok" v-model="formData.salary">
+                                            <label>Masuk</label>
+                                            <VueDatePicker time-picker-inline v-model="formData.in" :required="true" locale="id-ID" model-type="yyyy-MM-dd hh:mm:ss" position="left" format="yyyy-MM-dd hh:mm:ss" :auto-apply="true" placeholder="YYYY-MM-DD HH:mm:ss"></VueDatePicker>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Pulang</label>
+                                            <VueDatePicker time-picker-inline v-model="formData.out" :required="true" locale="id-ID" model-type="yyyy-MM-dd hh:mm:ss" position="left" format="yyyy-MM-dd hh:mm:ss" :auto-apply="true" placeholder="YYYY-MM-DD HH:mm:ss"></VueDatePicker>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Status</label>
+                                            <select class="form-control" required v-model="formData.status">
+                                                <option value="">Pilih status</option>
+                                                <option value="0">Alpha</option>
+                                                <option value="1">Masuk</option>
+                                                <option value="2">Belum Pulang</option>
+                                                <option value="3">Cuti</option>
+                                            </select>
                                         </div>
                                     </div>
-                                    <!-- /.card-body -->
 
                                     <div class="card-footer">
                                         <button type="submit" class="btn btn-primary">Submit</button>
@@ -47,39 +64,44 @@
                             </div>
                         </div>
                     </div>
-                    <!-- /.row -->
-                </div><!-- /.container-fluid -->
+                </div>
             </div>
-            <!-- /.content -->
         </div>
     </Layout>
 </template>
 
 <script setup>
-import AutoNumeric from 'autonumeric';
-import axios from 'axios';
 import Layout from '../../Layout.vue';
+import VueDatePicker from '@vuepic/vue-datepicker';
+import axios from 'axios';
 import { ref, onMounted } from 'vue';
 import { router } from '@inertiajs/vue3';
 
 const props = defineProps({
-    jobPosition: {
+    attendance: {
         type: Object,
         required: false
+    },
+    employees: {
+        type: Array,
+        required: true
     }
 })
 
 const formData = ref({
     id: null,
-    title: null,
-    level: null,
-    salary: null
+    employee: null,
+    employee_id: null,
+    date: null,
+    in: null,
+    out: null,
+    status: null
 })
 
 async function submitForm() {
     // cek apakah formnya adalah form edit atau create
-    // kalau form edit, urlnya adalah job-position.edit
-    // kalau form create, urlnya adalah job-position.create
+    // kalau form edit, urlnya adalah attendance.edit
+    // kalau form create, urlnya adalah attendance.create
 
     let url = ''
     try {
@@ -88,18 +110,16 @@ async function submitForm() {
         // ketika edit
         if (props.jobPosition) {
             newData._method = 'PUT'
-            url = route('job-position.update', {job_position: props.jobPosition.id})
+            url = route('attendance.update', {job_position: props.jobPosition.id})
             await axios.post(url, newData)
-            router.replace(route('job-position.index'))
+            router.replace(route('attendance.index'))
         }
         // ketika create
         else {
-            url = route('job-position.store')
+            url = route('attendance.store')
             const response = await axios.post(url, formData.value)
             // 1 redirect ke index
-            // router.replace(route('job-position.index'))
-            // 2 redirect ke halaman edit/show
-            router.replace(route('job-position.edit', {job_position: response.data.id}))
+            router.replace(route('attendance.index'))
         }
     } catch (e) {
         alert(e.response?.data?.message || e.message || e || 'ada kesalahan')
@@ -108,13 +128,13 @@ async function submitForm() {
 
 onMounted(() => {
     // artinya ini adalah form edit
-    if (props.jobPosition) {
-        formData.value = props.jobPosition
+    if (props.attendance) {
+        formData.value = {...props.attendance}
     }
-    new AutoNumeric('#input-salary', {
-        decimalPlaces: 0,
-        digitGroupSeparator: '.',
-        decimalCharacter: ','
+
+    $("#select-karyawan").select2()
+    $("#select-karyawan").on('change.select2', function(e) {
+
     })
 })
 </script>

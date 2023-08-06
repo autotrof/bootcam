@@ -16,8 +16,8 @@ return new class extends Migration
             $table->foreignId('employee_id')->constrained();
             $table->date('date');
             $table->unique(['employee_id', 'date']);
-            $table->dateTime('in');
-            $table->dateTime('out');
+            $table->dateTime('in')->nullable();
+            $table->dateTime('out')->nullable();
             $table->tinyInteger('status')->comment('0=alpha;1=masuk;2=belum pulang;3=cuti');
             $table->timestamps();
         });

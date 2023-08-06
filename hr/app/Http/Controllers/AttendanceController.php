@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Attendance;
+use App\Models\Employee;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class AttendanceController extends Controller
 {
@@ -12,8 +14,7 @@ class AttendanceController extends Controller
      */
     public function index()
     {
-        $attendances = Attendance::all();
-        return inertia('Attendance/Index', compact('attendances'));
+        return inertia('Attendance/Index');
     }
 
     /**
@@ -21,8 +22,8 @@ class AttendanceController extends Controller
      */
     public function create()
     {
-        // return view('pages.job_position.form');
-        return inertia('Attendance/Form');
+        $employees = Employee::all();
+        return inertia('Attendance/Form', compact('employees'));
     }
 
     /**
@@ -30,16 +31,19 @@ class AttendanceController extends Controller
      */
     public function store(Request $request)
     {
-        // $request->validate([
-        //     'title' => 'required',
-        //     'level' => 'required|numeric',
-        //     'salary' => 'required|numeric|min:1',
-        // ]);
-        // $jobPosition = Attendance::create($request->only([
-        //     'title', 'level', 'salary'
-        // ]));
-        // return redirect()->back();
-        return response()->json($jobPosition);
+        request()->validate([
+            'employee_id' => 'required|exists:\App\Models\Employee,id',
+            'date' => 'required|date',
+            'in' => 'nullable|date_format:yyyy-mm-dd HH:ii:ss',
+            'out' => 'nullable|date_format:yyyy-mm-dd HH:ii:ss',
+            'status' => 'required|in:0,1,2,3'
+        ]);
+
+        $attendnace = Attendance::create(request()->only([
+            'employee_id', 'date', 'in', 'out', 'status'
+        ]));
+
+        return response()->json($attendnace);
     }
 
     /**
@@ -55,23 +59,24 @@ class AttendanceController extends Controller
      */
     public function edit(Attendance $attendance)
     {
-        return inertia('Attendance/Form', compact('attendance'));
+        $employees = Employee::all();
+        return inertia('Attendance/Form', compact('attendance', 'employees'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Attendance $jobPosition)
+    public function update(Request $request, Attendance $attendance)
     {
-        // $request->validate([
-        //     'title' => 'required',
-        //     'level' => 'required|numeric',
-        //     'salary' => 'required|numeric|min:1'
-        // ]);
-        // $jobPosition->update($request->only([
-        //     'title', 'level', 'salary'
-        // ]));
-        return redirect()->back();
+        request()->validate([
+            'employee_id' => 'required|exists:\App\Models\Employee,id',
+            'date' => 'required|date',
+            'in' => 'nullable|date_format:yyyy-mm-dd HH:ii:ss',
+            'out' => 'nullable|date_format:yyyy-mm-dd HH:ii:ss',
+            'status' => 'required|in:0,1,2,3'
+        ]);
+        $attendance->update($request->only(['employee_id', 'date', 'in', 'out', 'status']));
+        return response()->json($attendance);
     }
 
     /**
@@ -82,5 +87,21 @@ class AttendanceController extends Controller
         $attendance->delete();
         // return redirect()->back();
         return response()->json(true);
+    }
+
+    public function data() {
+        $data = Attendance::join('employees', 'employees.id', '=', 'attendances.employee_id')
+            ->select('attendances.*', 'employees.nik', 'employees.name');
+
+        return DataTables::eloquent($data)
+            ->filterColumn('name', function($query, $keyword) {
+                $sql = "employees.name like ?";
+                $query->whereRaw($sql, ["%{$keyword}%"]);
+            })
+            ->filterColumn('nik', function($query, $keyword) {
+                $sql = "employees.nik like ?";
+                $query->whereRaw($sql, ["%{$keyword}%"]);
+            })
+            ->toJson();
     }
 }
